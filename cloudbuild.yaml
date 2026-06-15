@@ -4,10 +4,14 @@ steps:
   #
   - id: 'package-app'
     name: 'rockylinux:9'
+    entrypoint: bash
     args:
-      - 'bash'
-      - '-c'
-      - 'tar -zcf ${TAG_NAME}.tar.gz 01_bo 02_intg 03_api 04_ag 05_gc package.json'
+      - -c
+      - |
+        tar zcvf ${TAG_NAME}.tar.gz \
+          app.js \
+          package-lock.json \
+          package.json
 
   #
   # 2. 上傳到 bucket
@@ -18,38 +22,7 @@ steps:
       - 'storage'
       - 'cp'
       - '${TAG_NAME}.tar.gz'
-      - 'gs://g-deploy/${TAG_NAME}.tar.gz'
-
-  #
-  # 3. 新增執行個體範本
-  #
-  - id: 'add-instance-template'
-    name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'beta'
-      - 'compute'
-      - 'instance-templates'
-      - 'create'
-      - 'g-dx-tech-deploy-${SHORT_SHA}'
-      - '--description=release-tag:${TAG_NAME}'
-      - '--project=serene-bazaar-496904-f2'
-      - '--machine-type=e2-small'
-      - '--network-interface=nic-type=GVNIC,stack-type=IPV4_ONLY,subnet=ap,no-address'
-      - '--instance-template-region=asia-east1'
-      - '--metadata=startup-script-url=gs://g-deploy/boot.sh,tag=${TAG_NAME},enable-oslogin=true'
-      - '--no-restart-on-failure'
-      - '--maintenance-policy=TERMINATE'
-      - '--provisioning-model=SPOT'
-      - '--instance-termination-action=STOP'
-      - '--service-account=111212638070-compute@developer.gserviceaccount.com'
-      - '--scopes=default'
-      - '--region=asia-east1'
-      - '--tags=lb-health-check'
-      - '--create-disk=auto-delete=yes,boot=yes,device-name=g-dx-tech-deploy-${SHORT_SHA},image=projects/serene-bazaar-496904-f2/global/images/g-dx-tech-template,mode=rw,size=20,type=pd-balanced'
-      - '--no-shielded-secure-boot'
-      - '--shielded-vtpm'
-      - '--shielded-integrity-monitoring'
-      - '--reservation-affinity=none'
+      - 'gs://g-deploy/${REPO_NAME}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
