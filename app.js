@@ -21,9 +21,10 @@ const express = require('express');
 const app = express();
 const site = process.env.site || 'unknown';
 const port = process.env.ag_port || 3000;
+const ver = process.env.ver || 'unknown';
 
 app.get('/', (req, res) => {
-    res.send(`<h1>Hello World ${site}! v1.0.0, Host IP: ${ip}, Port: ${port}</h1>`);
+    res.send(`<h1>Hello World ${site}, v1.0.0 ! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
 });
 
 app.listen(port, "0.0.0.0", () => {
