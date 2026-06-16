@@ -21,7 +21,7 @@ const express = require('express');
 const app = express();
 const site = process.env.site || 'unknown';
 const port = process.env.port || 3000;
-const ver = process.env.ver || 'unknown';
+const ver = process.env.ag_ver || 'unknown';
 
 app.get('/', (req, res) => {
     res.send(`<h1>Hello World ${site}, v1.0.5 ! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
