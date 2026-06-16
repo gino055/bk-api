@@ -19,12 +19,12 @@ Object
 const express = require('express');
 
 const app = express();
-const site = process.env.site || 'unknown';
-const port = process.env.port || 3000;
-const ver = process.env.ag_ver || 'unknown';
+const site = process.env.SITE || 'unknown';
+const port = process.env.PORT || 3000;
+const ver = process.env.AG_VER || 'unknown';
 
 app.get('/', (req, res) => {
-    res.send(`<h1>Hello World ${site}, v1.0.5 ! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
+    res.send(`<h1>Hello World ${site} ag v113! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
 });
 
 app.listen(port, "0.0.0.0", () => {
