@@ -20,7 +20,7 @@ const express = require('express');
 
 const app = express();
 const site = process.env.site || 'unknown';
-const port = process.env.ag_port || 3000;
+const port = process.env.port || 3000;
 const ver = process.env.ver || 'unknown';
 
 app.get('/', (req, res) => {
