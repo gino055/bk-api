@@ -24,7 +24,7 @@ const port = process.env.PORT || 3000;
 const ver = process.env.AG_VER || 'unknown';
 
 app.get('/', (req, res) => {
-    res.send(`<h1>Hello World ${site} api v114! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
+    res.send(`<h1>Hello World ${site} api v120! .env version: ${ver}, Host IP: ${ip}, Port: ${port}</h1>`);
 });
 
 app.listen(port, "0.0.0.0", () => {
