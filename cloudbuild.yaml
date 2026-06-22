@@ -24,5 +24,24 @@ steps:
       - '${TAG_NAME}.tar.gz'
       - 'gs://g-deploy/${REPO_NAME}'
 
+  #
+  # 3. 更新 _API 預設值
+  #
+  - id: 'update-deploy-substitutions'
+    name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud beta builds triggers export 00-05-create-instance-template \
+          --region=asia-east1 \
+          --destination=settings.yaml
+        
+        sed -i "s/_API: .*/_API: ${TAG_NAME}/g" settings.yaml
+
+        gcloud beta builds triggers import \
+          --source=settings.yaml \
+          --region=asia-east1
+
 options:
   logging: CLOUD_LOGGING_ONLY
